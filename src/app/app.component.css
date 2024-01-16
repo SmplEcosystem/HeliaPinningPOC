@@ -1,0 +1,17 @@
+.main{
+    display: flex;
+    justify-content: center;  
+    width: 100%;  
+    background-color: lightgray;
+}
+.flex{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 50%;
+    height: 20vh;
+    align-items: center;    
+}
+.black{
+    color: black;
+}
