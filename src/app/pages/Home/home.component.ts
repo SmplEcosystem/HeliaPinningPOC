@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { HeliaService } from '../../helia.service';
 
 @Component({
   standalone: true,
@@ -9,26 +10,32 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class Home implements OnInit {
+export class About implements OnInit {
   title = 'Home Page';
-  pokemon: any;
-  getPokemon: any;
+  input = '';
+  cid: any
+  
   
   ngOnInit(): void {
-    this.getPokemon();
+    this.heliaService.init()
+
+    
   }
 
-//   constructor() {
-//     this.pokemon = ''
-//     this.getPokemon = async () => {
-//       try {
-//         const res = await fetch(`https://pokeapi.co/api/v2/pokemon/infernape`);
-//         const url = await res.json()
-//         if (typeof url.sprites.other.home.front_default === 'string') this.pokemon = url.sprites.other.home.front_default;
-//         return;
-//       } catch (err) {
-//         return 'error';
-//       }
-//     };
-//   }
-}
+  constructor(private heliaService: HeliaService) {
+    
+    console.log("test")
+  }
+  onClickMe() {
+    this.cid = this.heliaService.saveText(this.input)    
+    console.log("called", this.input)
+  }
+  onChangeMe(event: any) {
+    this.input = event.target.value
+    // 
+  }
+  onGetItemByCID() {
+    this.heliaService.findText()
+
+  }
+ }

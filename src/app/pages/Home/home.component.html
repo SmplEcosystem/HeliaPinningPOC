@@ -1,5 +1,11 @@
-<main class="main">
-    <h1>Routing Tests</h1>
-</main>
-
+<div class="flex">
+    <div style="margin: 20px;" class="main">
+        <input (change)="onChangeMe($event)" placeholder="add text" type="text">
+        <button type="button" (click)="onClickMe()">Add To Helia!</button>
+    </div>
+    <div class="main">
+        <!-- <input (change)="onFindCID($event)"  placeholder="add text" type="text"> -->
+        <button style="margin: 10px;" type="button" (click)="onGetItemByCID()">Get Content From Helia</button>
+    </div>
+</div>
 <router-outlet></router-outlet>
