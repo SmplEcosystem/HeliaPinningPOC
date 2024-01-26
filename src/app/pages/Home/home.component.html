@@ -1,11 +1,16 @@
 <div class="flex">
+    <div>add any text you want and press buttons from left to right</div>
     <div style="margin: 20px;" class="main">
         <input (change)="onChangeMe($event)" placeholder="add text" type="text">
         <button type="button" (click)="onClickMe()">Add To Helia!</button>
+        <button  type="button" (click)="onGetItemByCID()">Get Content From Helia</button>
+        <button type="button" (click)="onPinataAdd()">Add Item To Pinata!</button>
+        <button type="button" (click)="getPinata()">Get Item From Pinata!</button>
     </div>
     <div class="main">
+        <div></div>
         <!-- <input (change)="onFindCID($event)"  placeholder="add text" type="text"> -->
-        <button style="margin: 10px;" type="button" (click)="onGetItemByCID()">Get Content From Helia</button>
+        
     </div>
 </div>
 <router-outlet></router-outlet>

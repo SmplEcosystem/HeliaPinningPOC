@@ -26,16 +26,25 @@ export class About implements OnInit {
     
     console.log("test")
   }
+
   onClickMe() {
     this.cid = this.heliaService.saveText(this.input)    
     console.log("called", this.input)
   }
+
   onChangeMe(event: any) {
     this.input = event.target.value
     // 
   }
+
+  onPinataAdd() {
+    this.heliaService.addPinToPinata()    
+  }
+  getPinata() {
+    this.heliaService.getPinata()        
+  }
+
   onGetItemByCID() {
     this.heliaService.findText()
-
   }
  }

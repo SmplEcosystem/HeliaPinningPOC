@@ -81,11 +81,48 @@ export class HeliaService {
         stream: true
       })
     }
-
     console.log('Added file contents:', text)
-
   }
+
+// Typically I would add the authorization token and url to an ENV file, in 
+// this case I didnt to make it easier for you. 
+
+  async addPinToPinata() {
+    const options = {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+        authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4NWRkNTEyNy1jZDgwLTQ4NzUtYTQyMy05ODZlNmRhZWE5MGYiLCJlbWFpbCI6ImthbGVja2hAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6Ijc0NWYwZGY2YTUwNzMyYjMzZTdlIiwic2NvcGVkS2V5U2VjcmV0IjoiYmQzZWJiNzgzNjQ4Y2E5YmE5NGRjYzU0YzY5NGZiYWUwMmNjMzIzNzEzY2VlMDg2ZDc0YTU2NjM3OTdlMjY3ZiIsImlhdCI6MTcwNjE5NzMwNX0.Qs8SmEJ-cR2MemKuDLOUzeGL4hFikrCzWG7QGreyjlw'
+      },
+      body: JSON.stringify({ hashToPin: this.cid.toString() })
+    };
+    fetch('https://api.pinata.cloud/pinning/pinByHash', options)
+      .then(response => response.json())
+      .then(response => console.log("Pinata data added",response))
+      .catch(err => console.error(err));
+  }
+
+  async getPinata() {
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+        authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4NWRkNTEyNy1jZDgwLTQ4NzUtYTQyMy05ODZlNmRhZWE5MGYiLCJlbWFpbCI6ImthbGVja2hAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6Ijc0NWYwZGY2YTUwNzMyYjMzZTdlIiwic2NvcGVkS2V5U2VjcmV0IjoiYmQzZWJiNzgzNjQ4Y2E5YmE5NGRjYzU0YzY5NGZiYWUwMmNjMzIzNzEzY2VlMDg2ZDc0YTU2NjM3OTdlMjY3ZiIsImlhdCI6MTcwNjE5NzMwNX0.Qs8SmEJ-cR2MemKuDLOUzeGL4hFikrCzWG7QGreyjlw'
+      },
+      
+    };
+    fetch('https://api.pinata.cloud/data/pinList', options)
+    .then(response => response.json())
+    .then(response => console.log(response))
+    .catch(err => console.error(err));
+  }
+
+
 }
+
+
 
 // async getImage() {
 //   const fs = unixfs(this.helia);
@@ -99,17 +136,17 @@ export class HeliaService {
 //   return new Blob(chunks);
 // }
 
-  // async saveImage(file: File) {
-  //   const fs = unixfs(this.helia);
+// async saveImage(file: File) {
+//   const fs = unixfs(this.helia);
 
-  //   const reader = new FileReader();
-  //   reader.onload = async () => {
-  //     const byteArray = new Uint8Array(reader.result as ArrayBuffer);
+//   const reader = new FileReader();
+//   reader.onload = async () => {
+//     const byteArray = new Uint8Array(reader.result as ArrayBuffer);
 
-  //     this.imageCid = await fs.addBytes(byteArray);
-  //     localStorage.setItem('imageCid', this.imageCid);
-  //   }
+//     this.imageCid = await fs.addBytes(byteArray);
+//     localStorage.setItem('imageCid', this.imageCid);
+//   }
 
-  //   reader.readAsArrayBuffer(file);
-  // }
-  
+//   reader.readAsArrayBuffer(file);
+// }
+
