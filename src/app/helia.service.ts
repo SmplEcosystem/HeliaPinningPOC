@@ -124,6 +124,57 @@ export class HeliaService {
 
 
 
+function generatePrivateKey(): string {
+  return crypto.randomBytes(32).toString('hex');
+}
+
+
+function privateKeyToPublicKey(privateKey: string): string {
+  const key = crypto.createPrivateKey(privateKey);
+  return key.publicKey.export({ type: 'spki', format: 'pem' }).toString();
+}
+
+
+async function performCRUD() {
+
+  const privateKey = generatePrivateKey();
+  const publicKey = privateKeyToPublicKey(privateKey);
+
+  const node = await IPFS.create();
+  
+  const store = new IDBBlockstore('ipfs');
+  const libp2p = await createLibp2p({});
+  const helia = await createHelia({ blockstore: store, libp2p });
+
+  const ipnsNamespace = await helia.publish(publicKey);
+  console.log('IPNS Namespace:', ipnsNamespace);
+
+  const fs = unixfs(helia);
+  const content = 'Hello, IPFS and IPNS!';
+  const cid = await fs.addString(content);
+  await helia.pin(ipnsNamespace, cid.toString());
+  console.log('File added and pinned:', cid.toString());
+
+  const fileContents = await helia.cat(cid.toString());
+  console.log('File contents:', fileContents.toString());
+
+  const updatedContent = 'Hello, Updated IPFS and IPNS!';
+  const updatedCid = await fs.addString(updatedContent);
+  await helia.pin(ipnsNamespace, updatedCid.toString());
+  console.log('File updated and pinned:', updatedCid.toString());
+
+  const updatedFileContents = await helia.cat(updatedCid.toString());
+  console.log('Updated file contents:', updatedFileContents.toString());
+
+  await helia.unpin(ipnsNamespace, updatedCid.toString());
+  console.log('File unpinned');
+
+  await node.stop();
+}
+
+performCRUD().catch(console.error);
+
+
 // async getImage() {
 //   const fs = unixfs(this.helia);
 //   if (!this.imageCid) throw new Error("no imageCID");
